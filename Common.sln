@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utils", "Utils\Utils.csproj", "{549C990D-3A5E-4755-9D1F-66495C43B3B1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{86896929-89DA-48E0-8D9B-E26FFD89E06A}"
+EndProject
+Global
+	GlobalSection(SourceCodeControl) = preSolution
+		SccNumberOfProjects = 1
+		SccProjectUniqueName0 = Utils\\Utils.csproj
+		SccProjectName0 = \u0022$/东莞市人民医院/3开发库/3.2代码实现/Common/Utils\u0022,\u0020YHMLAAAA
+		SccLocalPath0 = Utils
+		SccProvider0 = MSSCCI:Microsoft\u0020Visual\u0020SourceSafe
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{549C990D-3A5E-4755-9D1F-66495C43B3B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{549C990D-3A5E-4755-9D1F-66495C43B3B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{549C990D-3A5E-4755-9D1F-66495C43B3B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{549C990D-3A5E-4755-9D1F-66495C43B3B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86896929-89DA-48E0-8D9B-E26FFD89E06A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86896929-89DA-48E0-8D9B-E26FFD89E06A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86896929-89DA-48E0-8D9B-E26FFD89E06A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86896929-89DA-48E0-8D9B-E26FFD89E06A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

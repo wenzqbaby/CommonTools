@@ -1,2 +1,2 @@
 # CommonTools
-.net 2.0 common tools
+C# 2.0 common tools
