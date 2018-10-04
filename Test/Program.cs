@@ -14,7 +14,7 @@ namespace Test
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Test.Utils.Cache.CacheTest());
+            Application.Run(new Test.Utils.Npa.NpaTest());
         }
     }
 }

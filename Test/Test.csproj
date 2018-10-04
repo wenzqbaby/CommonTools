@@ -36,6 +36,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\Common.Utils.dll</HintPath>
     </Reference>
+    <Reference Include="MySql.Data, Version=6.4.4.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\MySql.Data.dll\X86\6.4.4.0\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\neusoft-dgry\PrematureServer\PrematureMsgServer\bin\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
@@ -78,6 +86,18 @@
     <Compile Include="Utils\Cache\CacheTest.Designer.cs">
       <DependentUpon>CacheTest.cs</DependentUpon>
     </Compile>
+    <Compile Include="Utils\Npa\MySqlColumn.cs" />
+    <Compile Include="Utils\Npa\MySqlId.cs" />
+    <Compile Include="Utils\Npa\MySqlDataAccess.cs" />
+    <Compile Include="Utils\Npa\MySqlTimestamp.cs" />
+    <Compile Include="Utils\Npa\NpaTest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Utils\Npa\NpaTest.Designer.cs">
+      <DependentUpon>NpaTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\Npa\User.cs" />
+    <Compile Include="Utils\Npa\UserDao.cs" />
     <Compile Include="Utils\SqlCond\SqlCondTestForm.cs">
       <SubType>Form</SubType>
     </Compile>
