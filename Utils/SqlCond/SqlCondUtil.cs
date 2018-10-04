@@ -22,19 +22,23 @@ namespace Common.Utils.SqlCond
         /// <summary>
         /// Created by dengyq on 2018/7/20.
         /// 根据传入的对象和插槽集合，生成Where后的条件语句，插槽集合将覆盖对象所属类的配置
+        /// 若条件对象属性都不会生成条件语句时，则返回空字符串
         /// </summary>
         /// <param name="obj">对象</param>
         /// <param name="slot">插槽，Key为属性名称，Value为BaseCond</param>
         /// <returns>WHERE条件后面的语句，不带Where</returns>
         public static String getWhereCond(Object obj, Dictionary<String, BaseCond> slot)
         {
+            String whereCond = String.Empty;
+            if (obj == null)
+            {
+                return whereCond;
+            }
             if (slot == null)
             {
                 slot = new Dictionary<string, BaseCond>(0);
             }
-
             Dictionary<String, Annotation<BaseCond>> attrs = AttributeUtil.get<BaseCond>(obj.GetType());
-            String whereCond = String.Empty;
             foreach (KeyValuePair<String, Annotation<BaseCond>> kv in attrs)
             {
                 //判断是否存在新注解
@@ -72,8 +76,9 @@ namespace Common.Utils.SqlCond
 
         /// <summary>
         /// 根据传入的实体，生成Where后的条件语句
+        /// 若条件对象属性都不会生成条件语句时，则返回空字符串
         /// </summary>
-        /// <param name="obj">对象</param>
+        /// <param name="obj">条件对象</param>
         /// <returns>WHERE条件后面的语句，不带Where</returns>
         public static String getWhereCond(Object obj)
         {
