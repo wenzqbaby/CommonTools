@@ -14,7 +14,6 @@ namespace Common.Utils.Npa.Attributes
         private PropertyInfo mPropertyInfo;
         private String mPropName;
         private String mPreparePropName;
-        private String mColumnName;
 
         public BaseColumn()
         {
@@ -51,12 +50,17 @@ namespace Common.Utils.Npa.Attributes
 
         public string getColumn()
         {
-            return mColumnName;
+            return Name;
         }
 
-        public object getDbValue(object obj)
+        public Object getValue(Object obj)
         {
-            return this.TypeHandler.formatToDb(PropertyUtil.getValue<Object>(obj, mPropertyInfo));
+            return PropertyUtil.getValue<Object>(obj, mPropertyInfo);
+        }
+
+        public String getSqlValue(object obj)
+        {
+            return this.TypeHandler.formatToSql(PropertyUtil.getValue<Object>(obj, mPropertyInfo));
         }
 
         public void setDbValue(object obj, object value)
@@ -74,7 +78,11 @@ namespace Common.Utils.Npa.Attributes
             mPropertyInfo = propertyInfo;
             mPropName = propertyInfo.Name;
             mPreparePropName = "@" + mPropName;
-            mColumnName = NameUtil.getSqlName(mPropName);
+            if (String.IsNullOrEmpty(Name))
+            {
+                Name = NameUtil.getSqlName(mPropName);
+            }
+           
         }
 
         public abstract System.Data.Common.DbParameter getDbParameter(object value);

@@ -18,8 +18,24 @@ namespace Test.Utils.Npa
         public NpaTest()
         {
             InitializeComponent();
-            //Byte[] bytes = File.ReadAllBytes(@"D:\WeixinIcon.ico");
+            testNpa();
+        }
+
+        public void testNpa()
+        {
             UserDao userDao = new UserDao();
+            User u = new User();
+            u.Id = "B857F13630E143D4A5CED7A221AB7EB1";
+            u.Name = "";
+            u.Birth = "1980-08-08";
+            u.Image = File.ReadAllBytes(@"D:\WeixinIcon.ico");
+            userDao.update(u);
+            //userDao.insert(u);
+        }
+
+        public void test()
+        {
+            //Byte[] bytes = File.ReadAllBytes(@"D:\WeixinIcon.ico");
             IDataAccess dataAccess = new MySqlDataAccess("Host=192.168.199.196;Database=baby;Username=root;Password=root");
             String findSql = @"SELECT ID, NAME, GENDER, BIRTH, IMAGE FROM USERS WHERE ID ='e9369004bfdb11e8b74df079595d62ca'";
             String prepareSql = @"UPDATE USERS SET NAME = @Name WHERE ID ='e9369004bfdb11e8b74df079595d62ca'";

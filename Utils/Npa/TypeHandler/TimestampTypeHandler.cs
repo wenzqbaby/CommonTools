@@ -33,14 +33,14 @@ namespace Common.Utils.Npa.TypeHandler
             return dataRow[columnName].ToString();
         }
 
-        public object formatToDb(object value)
+        public String formatToSql(object value)
         {
-            return String.Format(formatStr, value.ToString());
+            return value == null ? null : String.Format(formatStr, value.ToString());
         }
 
         public object formatToProp(object dbValue)
         {
-            return dbValue.ToString();
+            return dbValue == null ? null : dbValue.ToString();
         }
 
         #endregion

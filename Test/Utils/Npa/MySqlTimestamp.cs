@@ -10,8 +10,13 @@ namespace Test.Utils.Npa
     {
         public override System.Data.Common.DbParameter getDbParameter(object value)
         {
+            Object val = getValue(value);
+            if (val == null)
+            {
+                return null;
+            }
             System.Data.Common.DbParameter parameter = new MySqlParameter(getPrepareProp(), MySqlDbType.Timestamp);
-            parameter.Value = value;
+            parameter.Value = Convert.ToDateTime(val);
             return parameter;
         }
     }

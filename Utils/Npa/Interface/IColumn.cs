@@ -39,8 +39,15 @@ namespace Common.Utils.Npa.Interface
         /// 获取对象该属性的值
         /// </summary>
         /// <param name="obj">对象</param>
+        /// <returns></returns>
+        Object getValue(Object obj);
+
+        /// <summary>
+        /// 获取对象该属性的数据库值
+        /// </summary>
+        /// <param name="obj">对象</param>
         /// <returns>属性值</returns>
-        Object getDbValue(Object obj);
+        String getSqlValue(Object obj);
 
         /// <summary>
         /// 给对象设置该属性的值

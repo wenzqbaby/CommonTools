@@ -24,22 +24,29 @@ namespace Common.Utils.Npa.TypeHandler
             }
         }
 
+        const String POINT = "'";
+        const String POINT_DOUBLIC = "''";
 
         #region ITypeHandler ≥…‘±
 
-        public object getResult(System.Data.DataRow dataRow, string columnName)
+        public virtual object getResult(System.Data.DataRow dataRow, string columnName)
         {
             return dataRow[columnName].ToString();
         }
 
-        public object formatToDb(object value)
+        public virtual String formatToSql(object value)
         {
-            return value.ToString().Replace("'", "''");
+            if (value == null)
+            {
+                return null;
+            }
+
+            return POINT + value.ToString().Replace(POINT, POINT_DOUBLIC) + POINT;
         }
 
-        public object formatToProp(object dbValue)
+        public virtual object formatToProp(object dbValue)
         {
-            return dbValue.ToString();
+            return dbValue == null ? null : dbValue.ToString();
         }
 
         #endregion

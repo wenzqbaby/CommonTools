@@ -42,21 +42,29 @@
     <Compile Include="Annotation\Annotation.cs" />
     <Compile Include="Cache\BaseCache.cs" />
     <Compile Include="Cache\ICache.cs" />
+    <Compile Include="Npa\Attributes\BaseBlob.cs" />
     <Compile Include="Npa\Attributes\BaseColumn.cs" />
     <Compile Include="Npa\Attributes\BaseTimestamp.cs" />
     <Compile Include="Npa\Attributes\Entity.cs" />
     <Compile Include="Npa\Attributes\BaseId.cs" />
     <Compile Include="Npa\BaseNpa.cs" />
+    <Compile Include="Npa\cmd\PreparedSql.cs" />
+    <Compile Include="Npa\Cst\SqlCst.cs" />
     <Compile Include="Npa\DataAccess\AbstractDataAccess.cs" />
     <Compile Include="Npa\Interface\IColumn.cs" />
     <Compile Include="Npa\Interface\IDataAccess.cs" />
     <Compile Include="Npa\Interface\IDelete.cs" />
     <Compile Include="Npa\Interface\IEntity.cs" />
+    <Compile Include="Npa\Interface\INpa.cs" />
     <Compile Include="Npa\Interface\IQuery.cs" />
     <Compile Include="Npa\Interface\ISave.cs" />
     <Compile Include="Npa\Interface\ITypeHandler.cs" />
     <Compile Include="Npa\Interface\IUpdate.cs" />
     <Compile Include="NameUtil.cs" />
+    <Compile Include="Npa\Sql\BaseSql.cs" />
+    <Compile Include="Npa\Sql\Insert.cs" />
+    <Compile Include="Npa\Sql\Update.cs" />
+    <Compile Include="Npa\TypeHandler\BlobTypeHandler.cs" />
     <Compile Include="Npa\TypeHandler\StringTypeHandler.cs" />
     <Compile Include="Npa\TypeHandler\TimestampTypeHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -82,9 +90,6 @@
   <ItemGroup>
     <Content Include="SqlCond\根据类自动生成Where条件.txt" />
     <Content Include="工具包.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Npa\Sql\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

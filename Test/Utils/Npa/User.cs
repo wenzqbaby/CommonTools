@@ -9,7 +9,7 @@ namespace Test.Utils.Npa
     class User
     {
         private String _id;
-        [MySqlColumn]
+        [MySqlId]
         public String Id
         {
             get { return _id; }
@@ -32,8 +32,16 @@ namespace Test.Utils.Npa
             set { _birth = value; }
         }
 
-        private byte[] _image;
+        private String _sex;
+        [MySqlColumn(Name = "GENDER")]
+        public String Sex
+        {
+            get { return _sex; }
+            set { _sex = value; }
+        }
 
+        private byte[] _image;
+        [MySqlBlob]
         public byte[] Image
         {
             get { return _image; }

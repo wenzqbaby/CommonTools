@@ -86,6 +86,7 @@
     <Compile Include="Utils\Cache\CacheTest.Designer.cs">
       <DependentUpon>CacheTest.cs</DependentUpon>
     </Compile>
+    <Compile Include="Utils\Npa\MySqlBlob.cs" />
     <Compile Include="Utils\Npa\MySqlColumn.cs" />
     <Compile Include="Utils\Npa\MySqlId.cs" />
     <Compile Include="Utils\Npa\MySqlDataAccess.cs" />
