@@ -63,6 +63,10 @@
       <SubType>Designer</SubType>
       <DependentUpon>CacheTest.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Utils\Npa\NpaTest.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>NpaTest.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Utils\SqlCond\SqlCondTestForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>SqlCondTestForm.cs</DependentUpon>

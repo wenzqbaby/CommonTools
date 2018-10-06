@@ -25,12 +25,13 @@ namespace Common.Utils.Npa.TypeHandler
         }
 
         const String formatStr = @"TIMESTAMP('{0}')";
+        const String LONG_TIME = @"yyyy-MM-dd HH:mm:ss";
 
         #region ITypeHandler ≥…‘±
 
         public object getResult(System.Data.DataRow dataRow, string columnName)
         {
-            return dataRow[columnName].ToString();
+            return formatToProp(dataRow[columnName]);
         }
 
         public String formatToSql(object value)
@@ -40,7 +41,7 @@ namespace Common.Utils.Npa.TypeHandler
 
         public object formatToProp(object dbValue)
         {
-            return dbValue == null ? null : dbValue.ToString();
+            return dbValue == null ? null : Convert.ToDateTime(dbValue.ToString()).ToString(LONG_TIME);
         }
 
         #endregion

@@ -22,114 +22,205 @@ namespace Common.Utils.Npa.Sql
 
         public string getSql(T t)
         {
-            if (mColumns == null || mColumns.Count < 1)
-            {
-                throw new Exception(String.Format("{0} 更新失败, {1} 映射字段为空", TAG, mType));
-            }
-            String setSql = String.Empty;
-            String whereSql = String.Empty;
-            if (mIds != null && mIds.Count > 0)
-            {
-                foreach (IColumn col in mIds)
-                {
-                    String value = col.getSqlValue(t);
-                    if (col.getSqlValue(t) != null)
-                    {
-                        whereSql += SqlCst.AND + col.getColumn() + SqlCst.EQUAL + value.ToString();
-                    }
-                }
-            }
-            else
-            {
-                throw new Exception(String.Format("{0} 更新失败, {1} 没设置主键映射字段", TAG, mType));
-            }
-
-            if (whereSql == String.Empty)
-            {
-                throw new Exception(String.Format("{0} 更新失败，更新条件不能全为空", TAG));
-            }
-
-            foreach (KeyValuePair<String, IColumn> item in mColumns)
-            {
-                String value = item.Value.getSqlValue(t);
-                if (value != null)
-                {
-                    setSql += SqlCst.SEPARATOR + item.Value.getColumn() + SqlCst.EQUAL + value.ToString();
-                }
-            }
-
-            if (setSql == String.Empty)
-            {
-                throw new Exception(String.Format("{0} 更新失败，更新的字段不能全为空", TAG));
-            }
-            return String.Format(SqlCst.UPDATE_SQL, mFullTable, setSql.Substring(SqlCst.SEPARATOR.Length),
-                whereSql.Substring(SqlCst.AND.Length));
+            List<IColumn> list = new List<IColumn>();
+            list.AddRange(mColumns.Values);
+            return getSql(list, mIds, t);
         }
 
-        public PreparedSql getPreparedSql(T t)
+        public PreparedCmd getPreparedSql(T t)
         {
-            if (mColumns == null || mColumns.Count < 1)
-            {
-                throw new Exception(String.Format("{0} 更新失败, {1} 映射字段为空", TAG, mType));
-            }
-            String setSql = String.Empty;
-            String whereSql = String.Empty;
-            PreparedSql preparedSql = new PreparedSql();
-            if (mIds != null && mIds.Count > 0)
-            {
-                foreach (IColumn col in mIds)
-                {
-                    DbParameter value = col.getDbParameter(t);
-                    if (col.getSqlValue(t) != null)
-                    {
-                        whereSql += SqlCst.AND + col.getColumn() + SqlCst.EQUAL + col.getPrepareProp();
-                        preparedSql.Parameters.Add(value);
-                    }
-                }
-            }
-            else
-            {
-                throw new Exception(String.Format("{0} 更新失败, {1} 没设置主键映射字段", TAG, mType));
-            }
-
-            if (whereSql == String.Empty)
-            {
-                throw new Exception(String.Format("{0} 更新失败，更新条件不能全为空", TAG));
-            }
-
-            foreach (KeyValuePair<String, IColumn> item in mColumns)
-            {
-                if (item.Value.isIdColumn())
-                {
-                    continue;
-                }
-                DbParameter value = item.Value.getDbParameter(t);
-                if (value != null)
-                {
-                    setSql += SqlCst.SEPARATOR + item.Value.getColumn() + SqlCst.EQUAL + item.Value.getPrepareProp();
-                    preparedSql.Parameters.Add(value);
-                }
-            }
-
-            if (setSql == String.Empty)
-            {
-                throw new Exception(String.Format("{0} 更新失败，更新的字段不能全为空", TAG));
-            }
-            preparedSql.Sql = String.Format(SqlCst.UPDATE_SQL, mFullTable, setSql.Substring(SqlCst.SEPARATOR.Length),
-                whereSql.Substring(SqlCst.AND.Length));
-            return preparedSql;
+            List<IColumn> list = new List<IColumn>();
+            list.AddRange(mColumns.Values);
+            return getPrepare(list, mIds, t);
         }
 
         public string getSqlWithNull(T t)
         {
-            throw new Exception("The method or operation is not implemented.");
+            List<IColumn> list = new List<IColumn>();
+            list.AddRange(mColumns.Values);
+            return getSqlWithNull(list, mIds, t);
         }
 
-        public PreparedSql getPSqlWithNull(T t)
+        public PreparedCmd getPSqlWithNull(T t)
         {
-            throw new Exception("The method or operation is not implemented.");
+            List<IColumn> list = new List<IColumn>();
+            list.AddRange(mColumns.Values);
+            return getPrepareWithNull(list, mIds, t);
         }
 
         #endregion
+
+        #region 私有方法，生成语句方法
+
+        private String getSql(List<IColumn> updates, List<IColumn> conds, T t)
+        {
+            validate(updates, conds);
+            return String.Format(SqlCst.UPDATE_SQL, mFullTable, getUpdateSql(updates, t), getCondSql(conds, t));
+        }
+
+        private PreparedCmd getPrepare(List<IColumn> updates, List<IColumn> conds, T t)
+        {
+            validate(updates, conds);
+            PreparedCmd preparedSql = new PreparedCmd();
+            foreach (IColumn item in conds)
+            {
+                updates.Remove(item);
+            }
+            preparedSql.Sql = String.Format(SqlCst.UPDATE_SQL, mFullTable, getUpdatePSql(updates, t, preparedSql.Parameters), getCondPSql(conds, t, preparedSql.Parameters));
+            return preparedSql;
+        }
+
+        private String getSqlWithNull(List<IColumn> updates, List<IColumn> conds, T t)
+        {
+            validate(updates, conds);
+            return String.Format(SqlCst.UPDATE_SQL, mFullTable, getUpdateSqlWithNull(updates, t), getCondSql(conds, t));
+        }
+
+        private PreparedCmd getPrepareWithNull(List<IColumn> updates, List<IColumn> conds, T t)
+        {
+            validate(updates, conds);
+            PreparedCmd preparedSql = new PreparedCmd();
+            foreach (IColumn item in conds)
+            {
+                updates.Remove(item);
+            }
+            preparedSql.Sql = String.Format(SqlCst.UPDATE_SQL, mFullTable, getUpdatePSqlWithNull(updates, t, preparedSql.Parameters), getCondPSql(conds, t, preparedSql.Parameters));
+            return preparedSql;
+        }
+
+        private Boolean validate(List<IColumn> updates, List<IColumn> conds)
+        {
+            if (conds == null || conds.Count < 1)
+            {
+                throw new Exception(String.Format("{0} 更新失败, {1} 没设置主键映射字段", TAG, mType));
+            }
+            if (updates == null || updates.Count < 1)
+            {
+                throw new Exception(String.Format("{0} 更新失败, {1} 映射字段为空", TAG, mType));
+            }
+            return true;
+        }
+
+        private String getCondSql(List<IColumn> conds, T t)
+        {
+            String condSql = String.Empty;
+            foreach (IColumn item in conds)
+            {
+                String value = item.getSqlValue(t);
+                if (value != null)
+                {
+                    condSql += SqlCst.AND + item.getColumn() + SqlCst.EQUAL + value.ToString();
+                }
+            }
+            if (condSql == String.Empty)
+            {
+                throw new Exception(String.Format("{0} 更新失败，更新条件不能全为空", TAG));
+            }
+            return condSql.Substring(SqlCst.AND.Length);
+        }
+
+        private String getCondPSql(List<IColumn> conds, T t, List<DbParameter> parameters)
+        {
+            String condSql = String.Empty;
+            foreach (IColumn item in conds)
+            {
+                DbParameter value = item.getDbParameter(t);
+                if (value != null)
+                {
+                    condSql += SqlCst.AND + item.getColumn() + SqlCst.EQUAL + item.getPrepareProp();
+                    parameters.Add(value);
+                }
+            }
+            if (condSql == String.Empty)
+            {
+                throw new Exception(String.Format("{0} 更新失败，更新条件不能全为空", TAG));
+            }
+            return condSql.Substring(SqlCst.AND.Length);
+        }
+
+        private String getUpdateSql(List<IColumn> updates, T t)
+        {
+            String updateSql = String.Empty;
+            foreach (IColumn item in updates)
+            {
+                String value = item.getSqlValue(t);
+                if (value != null)
+                {
+                    updateSql += SqlCst.SEPARATOR + item.getColumn() + SqlCst.EQUAL + value;
+                }
+            }
+            if (updateSql == String.Empty)
+            {
+                throw new Exception(String.Format("{0} 更新失败，更新的字段不能全为空", TAG));
+            }
+            return updateSql.Substring(SqlCst.SEPARATOR.Length);
+        }
+
+        private String getUpdatePSql(List<IColumn> updates, T t, List<DbParameter> parameters)
+        {
+            String updateSql = String.Empty;
+            foreach (IColumn item in updates)
+            {
+                DbParameter value = item.getDbParameter(t);
+                if (value != null)
+                {
+                    updateSql += SqlCst.SEPARATOR + item.getColumn() + SqlCst.EQUAL + item.getPrepareProp();
+                    parameters.Add(value);
+                }
+            }
+            if (updateSql == String.Empty)
+            {
+                throw new Exception(String.Format("{0} 更新失败，更新的字段不能全为空", TAG));
+            }
+            return updateSql.Substring(SqlCst.SEPARATOR.Length);
+        }
+
+        private String getUpdateSqlWithNull(List<IColumn> updates, T t)
+        {
+            String updateSql = String.Empty;
+            foreach (IColumn item in updates)
+            {
+                String value = item.getSqlValue(t);
+                if (value != null)
+                {
+                    updateSql += SqlCst.SEPARATOR + item.getColumn() + SqlCst.EQUAL + value;
+                }
+                else
+                {
+                    updateSql += SqlCst.SEPARATOR + item.getColumn() + SqlCst.EQUAL + SqlCst.NULL;
+                }
+            }
+            if (updateSql == String.Empty)
+            {
+                throw new Exception(String.Format("{0} 更新失败，更新的字段不能全为空", TAG));
+            }
+            return updateSql.Substring(SqlCst.SEPARATOR.Length);
+        }
+
+        private String getUpdatePSqlWithNull(List<IColumn> updates, T t, List<DbParameter> parameters)
+        {
+            String updateSql = String.Empty;
+            foreach (IColumn item in updates)
+            {
+                DbParameter value = item.getDbParameter(t);
+                if (value != null)
+                {
+                    updateSql += SqlCst.SEPARATOR + item.getColumn() + SqlCst.EQUAL + item.getPrepareProp();
+                    parameters.Add(value);
+                }
+                else
+                {
+                    updateSql += SqlCst.SEPARATOR + item.getColumn() + SqlCst.EQUAL + SqlCst.NULL;
+                }
+            }
+            if (updateSql == String.Empty)
+            {
+                throw new Exception(String.Format("{0} 更新失败，更新的字段不能全为空", TAG));
+            }
+            return updateSql.Substring(SqlCst.SEPARATOR.Length);
+        }
+
+        #endregion
+
     }
 }

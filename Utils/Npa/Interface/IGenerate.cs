@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Common.Utils.Npa.cmd;
+using System.Data;
 
 namespace Common.Utils.Npa.Interface
 {
-    public interface ISave<T>
+    public interface IGenerate<T>
     {
-        String getSql(T t);
+        T get(DataSet ds);
 
-        PreparedCmd getPreparedSql(T t);
+        List<T> getList(DataSet ds);
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Data;
 using System.Data.Common;
+using Common.Utils.Npa.cmd;
 
 namespace Common.Utils.Npa.Interface
 {
@@ -28,6 +29,8 @@ namespace Common.Utils.Npa.Interface
 
         int insert(String preparedSql, params DbParameter[] parameters);
 
+        int insert(PreparedCmd cmd);
+
         /// <summary>
         /// Ö´ÐÐÉ¾³ýÓï¾ä
         /// </summary>
@@ -44,6 +47,8 @@ namespace Common.Utils.Npa.Interface
         int delete(List<DbParameter> parameters, String preparedSql);
 
         int delete(String preparedSql, params DbParameter[] parameters);
+
+        int delete(PreparedCmd cmd);
 
         /// <summary>
         /// Ö´ÐÐ¸üÐÂÓï¾ä
@@ -62,6 +67,8 @@ namespace Common.Utils.Npa.Interface
 
         int update(String preparedSql, params DbParameter[] parameters);
 
+        int update(PreparedCmd cmd);
+
         /// <summary>
         /// Ö´ÐÐ²éÑ¯Óï¾ä
         /// </summary>
@@ -78,5 +85,7 @@ namespace Common.Utils.Npa.Interface
         DataSet select(List<DbParameter> parameters, String preparedSql);
 
         DataSet select(String preparedSql, params DbParameter[] parameters);
+
+        DataSet select(PreparedCmd cmd);
     }
 }

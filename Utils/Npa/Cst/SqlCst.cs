@@ -13,6 +13,7 @@ namespace Common.Utils.Npa.Cst
         public const String UPDATE = "UPDATE";
         public const String SET = "SET";
         public const String AND = "AND ";
+        public const String WHERE = "WHERE";
 
         public const String EQUAL = "=";
         public const String NULL = "NULL";
@@ -23,5 +24,7 @@ namespace Common.Utils.Npa.Cst
 
         public const String INSERT_SQL = @"INSERT INTO {0} ({1}) VALUES ({2})";
         public const String UPDATE_SQL = @"UPDATE {0} SET {1} WHERE {2}";
+        public const String DELETE_SQL = @"DELETE FROM {0} WHERE {1}";
+        public const String SELECT_SQL = @"SELECT {0} FROM {1}";
     }
 }

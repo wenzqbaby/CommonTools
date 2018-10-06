@@ -15,22 +15,13 @@ namespace Test.Utils.Npa
 {
     public partial class NpaTest : Form
     {
+        private UserDao userDao = new UserDao();
+
         public NpaTest()
         {
             InitializeComponent();
-            testNpa();
-        }
-
-        public void testNpa()
-        {
-            UserDao userDao = new UserDao();
-            User u = new User();
-            u.Id = "B857F13630E143D4A5CED7A221AB7EB1";
-            u.Name = "";
-            u.Birth = "1980-08-08";
-            u.Image = File.ReadAllBytes(@"D:\WeixinIcon.ico");
-            userDao.update(u);
-            //userDao.insert(u);
+            //User list = userDao.find();
+            List<User> list = userDao.findAll();
         }
 
         public void test()
@@ -78,6 +69,67 @@ namespace Test.Utils.Npa
             //{
             //    String str = var.ToString();
             //}
+        }
+
+        private void btnUpdate_Click(object sender, EventArgs e)
+        {
+            testNpa();
+            MessageBox.Show("更新成功");
+        }
+
+        public void testNpa()
+        {
+            User u = new User();
+            u.Id = tbId.Text.Trim();
+            //u.Name = tbName.Text.Trim();
+            //u.Sex = cbGender.Text.Trim();
+            u.Birth = dtpBirth.Value.ToString("yyyy-MM-dd HH:mm:ss");
+            if (!String.IsNullOrEmpty(lbImage.Text))
+            {
+                u.Image = File.ReadAllBytes(lbImage.Text);
+            }
+            userDao.updateWithNull(u);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog fdlg = new OpenFileDialog();
+            fdlg.Title = "C# Corner Open File Dialog";
+            fdlg.InitialDirectory = @"d:\";   //@是取消转义字符的意思
+            fdlg.Filter = "All files（*.*）|*.*|All files(*.*)|*.* ";
+            fdlg.RestoreDirectory = true;
+            if (fdlg.ShowDialog() == DialogResult.OK)
+            {
+                lbImage.Text = fdlg.FileName;
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            tbId.Text = Guid.NewGuid().ToString("N").ToUpper();
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            User u = new User();
+            u.Id = tbId.Text.Trim();
+            u.Name = tbName.Text.Trim();
+            u.Sex = cbGender.Text.Trim();
+            u.Birth = dtpBirth.Value.ToString("yyyy-MM-dd HH:mm:ss");
+            if (!String.IsNullOrEmpty(lbImage.Text))
+            {
+                u.Image = File.ReadAllBytes(lbImage.Text);
+            }
+            userDao.insert(u);
+            MessageBox.Show("保存成功");
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            User u = new User();
+            u.Id = tbId.Text.Trim();
+            userDao.delete(u);
+            MessageBox.Show("删除成功");
         }
     }
 }

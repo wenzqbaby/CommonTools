@@ -4,10 +4,11 @@ using System.Text;
 using Common.Utils.Npa.Interface;
 using System.Data.Common;
 using System.Data;
+using Common.Utils.Npa.cmd;
 
 namespace Common.Utils.Npa.DataAccess
 {
-    public abstract class AbstractDataAccess:IDataAccess
+    public abstract class AbstractDataAccess : IDataAccess
     {
         public abstract DbConnection getConnection();
 
@@ -47,6 +48,11 @@ namespace Common.Utils.Npa.DataAccess
             }
         }
 
+        public int insert(PreparedCmd cmd)
+        {
+            return this.insert(cmd.Parameters, cmd.Sql);
+        }
+
         public virtual int delete(string sql)
         {
             return this.delete(sql, null);
@@ -72,6 +78,11 @@ namespace Common.Utils.Npa.DataAccess
                     return adapter.DeleteCommand.ExecuteNonQuery();
                 }
             }
+        }
+        
+        public int delete(PreparedCmd cmd)
+        {
+            return this.delete(cmd.Parameters, cmd.Sql);
         }
 
         public virtual int update(string sql)
@@ -99,6 +110,11 @@ namespace Common.Utils.Npa.DataAccess
                     return adapter.UpdateCommand.ExecuteNonQuery();
                 }
             }
+        }
+
+        public int update(PreparedCmd cmd)
+        {
+            return this.update(cmd.Parameters, cmd.Sql);
         }
 
         public virtual DataSet select(string sql)
@@ -130,6 +146,11 @@ namespace Common.Utils.Npa.DataAccess
             }
         }
 
-        #endregion 
+        public DataSet select(PreparedCmd cmd)
+        {
+            return this.select(cmd.Parameters, cmd.Sql);
+        }
+
+        #endregion
     }
 }

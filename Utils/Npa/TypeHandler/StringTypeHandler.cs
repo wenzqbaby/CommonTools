@@ -31,7 +31,7 @@ namespace Common.Utils.Npa.TypeHandler
 
         public virtual object getResult(System.Data.DataRow dataRow, string columnName)
         {
-            return dataRow[columnName].ToString();
+            return formatToProp(dataRow[columnName]);
         }
 
         public virtual String formatToSql(object value)

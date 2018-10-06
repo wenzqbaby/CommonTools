@@ -5,11 +5,14 @@ using System.Data.Common;
 
 namespace Common.Utils.Npa.cmd
 {
-    public class PreparedSql
+    /// <summary>
+    /// 预备Sql的指令对象
+    /// </summary>
+    public class PreparedCmd
     {
         private String _sql;
         /// <summary>
-        /// Prepare SQL语句
+        /// Prepared SQL语句
         /// </summary>
         public String Sql
         {
@@ -19,7 +22,7 @@ namespace Common.Utils.Npa.cmd
 
         private List<DbParameter> _parameters = new List<DbParameter>();
         /// <summary>
-        /// 参数
+        /// 参数集合
         /// </summary>
         public List<DbParameter> Parameters
         {

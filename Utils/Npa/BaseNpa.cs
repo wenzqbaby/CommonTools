@@ -7,6 +7,8 @@ using Common.Utils.Npa.Attributes;
 using Common.Utils.Annotation;
 using Common.Utils.Npa.Sql;
 using Common.Utils.Npa.cmd;
+using Common.Utils.Npa.Reflection;
+using System.Data;
 
 namespace Common.Utils.Npa
 {
@@ -22,6 +24,9 @@ namespace Common.Utils.Npa
         protected IDataAccess mIDataAccess;
         protected ISave<T> mISave;
         protected IUpdate<T> mIUpdate;
+        protected IDelete<T> mIDelete;
+        protected ISelect<T> mISelect;
+        protected IGenerate<T> mIGenerate;
 
         public BaseNpa(IDataAccess iDataAccess)
         {
@@ -65,6 +70,9 @@ namespace Common.Utils.Npa
             }
             mISave = new Insert<T>(mScheme, mTable, columnsDic, idList, TAG);
             mIUpdate = new Update<T>(mScheme, mTable, columnsDic, idList, TAG);
+            mIDelete = new Delete<T>(mScheme, mTable, columnsDic, idList, TAG);
+            mISelect = new Select<T>(mScheme, mTable, columnsDic, TAG);
+            mIGenerate = new Generate<T>(columnsDic, TAG);
         }
 
         public virtual void save(T t)
@@ -75,16 +83,48 @@ namespace Common.Utils.Npa
 
         public virtual void insert(T t)
         {
-            PreparedSql preparedSql = mISave.getPreparedSql(t);
-            mIDataAccess.insert(preparedSql.Parameters, preparedSql.Sql);
+            PreparedCmd preparedSql = mISave.getPreparedSql(t);
+            mIDataAccess.insert(preparedSql);
+        }
+
+        public void updateWithSql(T t)
+        {
+            String sql = mIUpdate.getSql(t);
+            mIDataAccess.update(sql);
+        }
+
+        public void updateWithNull(T t)
+        {
+            PreparedCmd preparedSql = mIUpdate.getPSqlWithNull(t);
+            mIDataAccess.update(preparedSql);
+        }
+
+        public void delete(T t)
+        {
+            PreparedCmd cmd = mIDelete.getPreparedSql(t);
+            int i = mIDataAccess.delete(cmd);
+        }
+
+        public T find()
+        {
+            PreparedCmd cmd = mISelect.findPrepared();
+            DataSet ds = mIDataAccess.select(cmd);
+            return mIGenerate.get(ds);
+        }
+
+        public List<T> findAll()
+        {
+            PreparedCmd cmd = mISelect.findPrepared();
+            DataSet ds = mIDataAccess.select(cmd);
+            return mIGenerate.getList(ds);
         }
 
         #region INpa<T> ≥…‘±
 
         public void update(T t)
         {
-            PreparedSql preparedSql = mIUpdate.getPreparedSql(t);
-            int i = mIDataAccess.update(preparedSql.Parameters, preparedSql.Sql);
+            PreparedCmd preparedSql = mIUpdate.getPreparedSql(t);
+            mIDataAccess.update(preparedSql);
         }
 
         #endregion

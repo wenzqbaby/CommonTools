@@ -23,7 +23,7 @@ namespace Common.Utils.Npa.Interface
         /// </summary>
         /// <param name="t"></param>
         /// <returns></returns>
-        PreparedSql getPreparedSql(T t);
+        PreparedCmd getPreparedSql(T t);
 
         /// <summary>
         /// 获取根据对象主键更新语句，该类必须有主键列且不能为空
@@ -38,6 +38,6 @@ namespace Common.Utils.Npa.Interface
         /// </summary>
         /// <param name="t"></param>
         /// <returns></returns>
-        PreparedSql getPSqlWithNull(T t);
+        PreparedCmd getPSqlWithNull(T t);
     }
 }

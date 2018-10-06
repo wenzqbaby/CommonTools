@@ -17,68 +17,84 @@ namespace Common.Utils.Npa.Sql
             TAG = tag;
         }
 
-        private Boolean valudate(T t)
-        {
-            if (mIds != null && mIds.Count > 0)
-            {
-                foreach (IColumn col in mIds)
-                {
-                    if (col.getSqlValue(t) == null)
-                    {
-                        throw new Exception(String.Format("{0} 插入失败，{1} 的主键字段属性 {2} 为空", TAG, mType, col.getProp()));
-                    }
-                }
-            }
-            if ((mIds == null || mIds.Count < 1) && (mColumns == null || mColumns.Count < 1))
-            {
-                throw new Exception(String.Format("{0}插入失败, {1} 映射字段为空", TAG, mType));
-            }
-            return true;
-        }
-
         #region ISave<T> 成员
 
         public string getSql(T t)
         {
-            this.valudate(t);
+            List<IColumn> list = new List<IColumn>();
+            list.AddRange(mColumns.Values);
+            this.valudate(list);
+            return getSql(list, t);
+        }
+
+        public PreparedCmd getPreparedSql(T t)
+        {
+            List<IColumn> list = new List<IColumn>();
+            list.AddRange(mColumns.Values);
+            this.valudate(list);
+            return getPreparedSql(list, t);
+        }
+
+        #endregion
+
+        #region 私有方法，生成语句方法
+
+        private Boolean valudate(List<IColumn> columns)
+        {
+            if (columns == null || columns.Count < 1)
+            {
+                throw new Exception(String.Format("{0} 插入失败, {1} 映射字段为空", TAG, mType));
+            }
+            return true;
+        }
+
+        private String getSql(List<IColumn> columns, T t)
+        {
             String columSql = String.Empty;
             String valueSql = String.Empty;
-            foreach (KeyValuePair<String, IColumn> item in mColumns)
+            foreach (IColumn item in columns)
             {
-                String value = item.Value.getSqlValue(t);
+                String value = item.getSqlValue(t);
                 if (value != null)
                 {
-                    columSql += SqlCst.SEPARATOR + item.Value.getColumn();
+                    columSql += SqlCst.SEPARATOR + item.getColumn();
                     valueSql += SqlCst.SEPARATOR + value;
+                }
+                else if (item.isIdColumn())
+                {
+                    throw new Exception(String.Format("{0} 插入失败，{1} 的主键字段属性 {2} 为空", TAG, mType, item.getProp()));
                 }
             }
             if (columSql == String.Empty)
             {
-                throw new Exception(String.Format("{0}插入失败，{1} 的所有属性都为空", TAG, mType));
+                throw new Exception(String.Format("{0} 插入失败，{1} 的所有属性都为空", TAG, mType));
             }
             return String.Format(SqlCst.INSERT_SQL, mFullTable, columSql.Substring(SqlCst.SEPARATOR.Length),
                 valueSql.Substring(SqlCst.SEPARATOR.Length));
         }
 
-        public PreparedSql getPreparedSql(T t)
+        private PreparedCmd getPreparedSql(List<IColumn> columns, T t)
         {
-            this.valudate(t);
             String columSql = String.Empty;
             String valueSql = String.Empty;
-            PreparedSql preparedSql = new PreparedSql();
-            foreach (KeyValuePair<String, IColumn> item in mColumns)
+            PreparedCmd preparedSql = new PreparedCmd();
+            foreach (IColumn item in columns)
             {
-                DbParameter value = item.Value.getDbParameter(t);
+                DbParameter value = item.getDbParameter(t);
                 if (value != null)
                 {
-                    columSql += SqlCst.SEPARATOR + item.Value.getColumn();
-                    valueSql += SqlCst.SEPARATOR + item.Value.getPrepareProp();
+                    columSql += SqlCst.SEPARATOR + item.getColumn();
+                    valueSql += SqlCst.SEPARATOR + item.getPrepareProp();
                     preparedSql.Parameters.Add(value);
+                }
+                else if (item.isIdColumn())
+                {
+                    throw new Exception(String.Format("{0} 插入失败，{1} 的主键字段属性 {2} 为空", TAG, mType, item.getProp()));
                 }
             }
             if (columSql == String.Empty)
             {
-                throw new Exception(String.Format("{0}插入失败，{1} 的所有属性都为空", TAG, mType));
+                throw new Exception(String.Format("{0} 插入失败，{1} 的所有属性都为空", TAG, mType));
             }
             preparedSql.Sql = String.Format(SqlCst.INSERT_SQL, mTable, columSql.Substring(SqlCst.SEPARATOR.Length),
                 valueSql.Substring(SqlCst.SEPARATOR.Length));

@@ -28,7 +28,7 @@ namespace Common.Utils.Npa.TypeHandler
 
         public virtual object getResult(System.Data.DataRow dataRow, string columnName)
         {
-            return dataRow[columnName] as Byte[];
+            return formatToProp(dataRow[columnName]);
         }
 
         public virtual String formatToSql(object value)
@@ -38,7 +38,7 @@ namespace Common.Utils.Npa.TypeHandler
 
         public virtual object formatToProp(object dbValue)
         {
-            return dbValue as Byte[];
+            return dbValue == null ? null : dbValue as Byte[];
         }
 
         #endregion
