@@ -5,7 +5,7 @@ using Common.Utils.Npa.Interface;
 
 namespace Common.Utils.Npa.TypeHandler
 {
-    public class TimestampTypeHandler:ITypeHandler
+    public class TimestampTypeHandler : AbstractTypeHandler
     {
         protected TimestampTypeHandler() { }
 
@@ -27,21 +27,21 @@ namespace Common.Utils.Npa.TypeHandler
         const String formatStr = @"TIMESTAMP('{0}')";
         const String LONG_TIME = @"yyyy-MM-dd HH:mm:ss";
 
-        #region ITypeHandler 成员
+        #region AbstractTypeHandler 成员
 
-        public object getResult(System.Data.DataRow dataRow, string columnName)
+        public override object getResult(System.Data.DataRow dataRow, string columnName)
         {
             return formatToProp(dataRow[columnName]);
         }
 
-        public String formatToSql(object value)
+        public override String formatToSql(object value)
         {
-            return value == null ? null : String.Format(formatStr, value.ToString());
+            return value == null ? null : String.Format(formatStr, Convert.ToDateTime(value.ToString()).ToString(LONG_TIME));
         }
 
-        public object formatToProp(object dbValue)
+        public override object formatToProp(object dbValue)
         {
-            return dbValue == null ? null : Convert.ToDateTime(dbValue.ToString()).ToString(LONG_TIME);
+            return dbValue == DBNull.Value ? null : Convert.ToDateTime(dbValue.ToString()).ToString(LONG_TIME);
         }
 
         #endregion

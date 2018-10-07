@@ -21,7 +21,8 @@ namespace Test.Utils.Npa
         {
             InitializeComponent();
             //User list = userDao.find();
-            List<User> list = userDao.findAll();
+            //List<User> list = userDao.findAll();
+            List<Dept> depts = userDao.getDepts();
         }
 
         public void test()

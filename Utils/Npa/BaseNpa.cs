@@ -27,6 +27,7 @@ namespace Common.Utils.Npa
         protected IDelete<T> mIDelete;
         protected ISelect<T> mISelect;
         protected IGenerate<T> mIGenerate;
+        protected ICreate mICreate;
 
         public BaseNpa(IDataAccess iDataAccess)
         {
@@ -73,6 +74,7 @@ namespace Common.Utils.Npa
             mIDelete = new Delete<T>(mScheme, mTable, columnsDic, idList, TAG);
             mISelect = new Select<T>(mScheme, mTable, columnsDic, TAG);
             mIGenerate = new Generate<T>(columnsDic, TAG);
+            mICreate = new Creator();
         }
 
         public virtual void save(T t)
@@ -117,6 +119,17 @@ namespace Common.Utils.Npa
             PreparedCmd cmd = mISelect.findPrepared();
             DataSet ds = mIDataAccess.select(cmd);
             return mIGenerate.getList(ds);
+        }
+
+        public List<E> query<E>(String sql)
+        {
+            DataSet ds = mIDataAccess.select(sql);
+            return mICreate.getList<E>(ds);
+        }
+
+        public List<E> query<E, U>(String sql, List<ResultCmd> cmds, ResultCollectionCmd<U> colet)
+        {
+            return mICreate.getList<E, U>(mIDataAccess.select(sql), cmds, colet);
         }
 
         #region INpa<T> ≥…‘±

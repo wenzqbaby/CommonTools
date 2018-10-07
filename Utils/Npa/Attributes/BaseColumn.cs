@@ -53,27 +53,27 @@ namespace Common.Utils.Npa.Attributes
             return Name;
         }
 
-        public Object getValue(Object obj)
+        public virtual Object getValue(Object obj)
         {
             return PropertyUtil.getValue<Object>(obj, mPropertyInfo);
         }
 
-        public String getSqlValue(object obj)
+        public virtual String getSqlValue(object obj)
         {
             return this.TypeHandler.formatToSql(PropertyUtil.getValue<Object>(obj, mPropertyInfo));
         }
 
-        public void setDbValue(object obj, object value)
+        public virtual void setDbValue(object obj, object value)
         {
             PropertyUtil.setValue(obj, mPropertyInfo, this.TypeHandler.formatToProp(value));
         }
 
-        public string getPrepareProp()
+        public virtual string getPrepareProp()
         {
             return mPreparePropName;
         }
 
-        public void setPropertyInfo(PropertyInfo propertyInfo)
+        public virtual void setPropertyInfo(PropertyInfo propertyInfo)
         {
             mPropertyInfo = propertyInfo;
             mPropName = propertyInfo.Name;

@@ -5,7 +5,7 @@ using Common.Utils.Npa.Interface;
 
 namespace Common.Utils.Npa.TypeHandler
 {
-    public class BlobTypeHandler : ITypeHandler
+    public class BlobTypeHandler : AbstractTypeHandler
     {
         protected BlobTypeHandler() { }
 
@@ -26,19 +26,19 @@ namespace Common.Utils.Npa.TypeHandler
 
         #region ITypeHandler ≥…‘±
 
-        public virtual object getResult(System.Data.DataRow dataRow, string columnName)
+        public override object getResult(System.Data.DataRow dataRow, string columnName)
         {
             return formatToProp(dataRow[columnName]);
         }
 
-        public virtual String formatToSql(object value)
+        public override String formatToSql(object value)
         {
             return null;
         }
 
-        public virtual object formatToProp(object dbValue)
+        public override object formatToProp(object dbValue)
         {
-            return dbValue == null ? null : dbValue as Byte[];
+            return dbValue == DBNull.Value ? null : dbValue as Byte[];
         }
 
         #endregion

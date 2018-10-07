@@ -90,10 +90,12 @@
     <Compile Include="Utils\Cache\CacheTest.Designer.cs">
       <DependentUpon>CacheTest.cs</DependentUpon>
     </Compile>
+    <Compile Include="Utils\Npa\Dept.cs" />
     <Compile Include="Utils\Npa\MySqlBlob.cs" />
     <Compile Include="Utils\Npa\MySqlColumn.cs" />
     <Compile Include="Utils\Npa\MySqlId.cs" />
     <Compile Include="Utils\Npa\MySqlDataAccess.cs" />
+    <Compile Include="Utils\Npa\MySqlKv.cs" />
     <Compile Include="Utils\Npa\MySqlTimestamp.cs" />
     <Compile Include="Utils\Npa\NpaTest.cs">
       <SubType>Form</SubType>

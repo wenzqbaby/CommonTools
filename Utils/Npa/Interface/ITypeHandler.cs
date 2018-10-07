@@ -19,7 +19,14 @@ namespace Common.Utils.Npa.Interface
         Object getResult(DataRow dataRow, String columnName);
 
         /// <summary>
-        /// 格式化属性的值为SQL的值
+        /// 获取格式化后的值
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        Object formatProp(Object value);
+
+        /// <summary>
+        /// 格式化属性的值为SQL语句的值
         /// </summary>
         /// <param name="obj">要格式化的值</param>
         /// <returns></returns>

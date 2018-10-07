@@ -6,7 +6,7 @@ using Common.Utils.Npa.Attributes;
 namespace Test.Utils.Npa
 {
     [Entity(TableName = "USERS")]
-    class User
+    public class User
     {
         private String _id;
         [MySqlId]
@@ -33,7 +33,7 @@ namespace Test.Utils.Npa
         }
 
         private String _sex;
-        [MySqlColumn(Name = "GENDER")]
+        [MySqlKv("M=ÄÐ","F=Å®","²»Ïê", Name = "GENDER")]
         public String Sex
         {
             get { return _sex; }
