@@ -33,8 +33,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -42,34 +47,38 @@
     <Compile Include="Annotation\Annotation.cs" />
     <Compile Include="Cache\BaseCache.cs" />
     <Compile Include="Cache\ICache.cs" />
+    <Compile Include="NameUtil.cs" />
     <Compile Include="Npa\Attributes\BaseBlob.cs" />
     <Compile Include="Npa\Attributes\BaseColumn.cs" />
-    <Compile Include="Npa\Attributes\BaseKv.cs" />
-    <Compile Include="Npa\Attributes\BaseTimestamp.cs" />
-    <Compile Include="Npa\Attributes\Entity.cs" />
+    <Compile Include="Npa\Attributes\BaseDecimal.cs" />
     <Compile Include="Npa\Attributes\BaseId.cs" />
+    <Compile Include="Npa\Attributes\BaseInt.cs" />
+    <Compile Include="Npa\Attributes\BaseKv.cs" />
+    <Compile Include="Npa\Attributes\BaseLong.cs" />
+    <Compile Include="Npa\Attributes\BaseTimestamp.cs" />
+    <Compile Include="Npa\Attributes\Table.cs" />
     <Compile Include="Npa\BaseNpa.cs" />
-    <Compile Include="Npa\cmd\ResultCmd.cs" />
-    <Compile Include="Npa\cmd\PreparedCmd.cs" />
-    <Compile Include="Npa\cmd\ResultCollectionCmd.cs" />
+    <Compile Include="Npa\Cmd\PreparedCmd.cs" />
+    <Compile Include="Npa\Cmd\ResultCmd.cs" />
+    <Compile Include="Npa\Cmd\ResultCollectionCmd.cs" />
     <Compile Include="Npa\Cst\SqlCst.cs" />
     <Compile Include="Npa\DataAccess\AbstractDataAccess.cs" />
     <Compile Include="Npa\Interface\IColumn.cs" />
+    <Compile Include="Npa\Interface\ICount.cs" />
     <Compile Include="Npa\Interface\ICreate.cs" />
     <Compile Include="Npa\Interface\IDataAccess.cs" />
     <Compile Include="Npa\Interface\IDelete.cs" />
-    <Compile Include="Npa\Interface\IEntity.cs" />
+    <Compile Include="Npa\Interface\ITable.cs" />
     <Compile Include="Npa\Interface\IGenerate.cs" />
     <Compile Include="Npa\Interface\INpa.cs" />
-    <Compile Include="Npa\Interface\IQuery.cs" />
     <Compile Include="Npa\Interface\ISave.cs" />
     <Compile Include="Npa\Interface\ISelect.cs" />
     <Compile Include="Npa\Interface\ITypeHandler.cs" />
     <Compile Include="Npa\Interface\IUpdate.cs" />
-    <Compile Include="NameUtil.cs" />
     <Compile Include="Npa\Reflection\Creator.cs" />
     <Compile Include="Npa\Reflection\Generate.cs" />
     <Compile Include="Npa\Sql\BaseSql.cs" />
+    <Compile Include="Npa\Sql\Count.cs" />
     <Compile Include="Npa\Sql\Delete.cs" />
     <Compile Include="Npa\Sql\Insert.cs" />
     <Compile Include="Npa\Sql\Select.cs" />
