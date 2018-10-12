@@ -7,7 +7,9 @@ using System.Reflection;
 namespace Common.Utils.Npa.Interface
 {
     /// <summary>
-    /// 数据库表的列名接口
+    /// author: wenzq
+    /// date:   2018/10/5
+    /// desc:   数据列接口
     /// </summary>
     public interface IColumn
     {

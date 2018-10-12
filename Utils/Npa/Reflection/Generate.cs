@@ -6,7 +6,13 @@ using System.Data;
 
 namespace Common.Utils.Npa.Reflection
 {
-    public class Generate<T>:IGenerate<T>
+    /// <summary>
+    /// author: wenzq
+    /// date:   2018/10/7
+    /// desc:   数据集生成对象接口
+    /// </summary>
+    /// <typeparam name="T">实体类型</typeparam>
+    public class Generate<T> : IGenerate<T>
     {
         protected String TAG;
         protected Dictionary<String, IColumn> mColumns;

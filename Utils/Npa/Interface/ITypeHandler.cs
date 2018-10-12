@@ -6,7 +6,9 @@ using System.Data;
 namespace Common.Utils.Npa.Interface
 {
     /// <summary>
-    /// 类型句柄接口
+    /// author: wenzq
+    /// date:   2018/10/6
+    /// desc:   类型转换接口
     /// </summary>
     public interface ITypeHandler
     {

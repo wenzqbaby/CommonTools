@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Text;
 using System.Data.Common;
 
-namespace Common.Utils.Npa.cmd
+namespace Common.Utils.Npa.Cmd
 {
     /// <summary>
-    /// 预备Sql的指令对象
+    /// 参数化指令
     /// </summary>
     public class PreparedCmd
     {
         private String _sql;
         /// <summary>
-        /// Prepared SQL语句
+        /// 参数化SQL语句
         /// </summary>
         public String Sql
         {

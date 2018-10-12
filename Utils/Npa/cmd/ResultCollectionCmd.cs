@@ -2,8 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Common.Utils.Npa.cmd
+namespace Common.Utils.Npa.Cmd
 {
+    /// <summary>
+    /// 结果嵌套集合指令
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class ResultCollectionCmd<T>
     {
         private String _property;
@@ -17,7 +21,9 @@ namespace Common.Utils.Npa.cmd
         }
 
         private Dictionary<String, ResultCmd> _results = new Dictionary<String, ResultCmd>();
-
+        /// <summary>
+        /// 属性名对应结果集配置指令集合
+        /// </summary>
         public Dictionary<String, ResultCmd> Results
         {
             get { return _results; }

@@ -8,6 +8,11 @@ using System.Reflection;
 
 namespace Common.Utils.Npa.Attributes
 {
+    /// <summary>
+    /// author: wenzq
+    /// date:   2018/10/5
+    /// desc:   数据列注解抽象实现，类型为字符串
+    /// </summary>
     [AttributeUsage(AttributeTargets.Property, Inherited = true)]
     public abstract class BaseColumn: Attribute, IColumn
     {

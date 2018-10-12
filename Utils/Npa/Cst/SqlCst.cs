@@ -4,6 +4,9 @@ using System.Text;
 
 namespace Common.Utils.Npa.Cst
 {
+    /// <summary>
+    /// SQLÓï¾ä³£Á¿
+    /// </summary>
     public class SqlCst
     {
         private SqlCst() { }
@@ -26,5 +29,7 @@ namespace Common.Utils.Npa.Cst
         public const String UPDATE_SQL = @"UPDATE {0} SET {1} WHERE {2}";
         public const String DELETE_SQL = @"DELETE FROM {0} WHERE {1}";
         public const String SELECT_SQL = @"SELECT {0} FROM {1}";
+        public const String COUNT_SQL = @"SELECT COUNT(1) FROM {0}";
+        public const String COND_SQL = @" WHERE {0}";
     }
 }

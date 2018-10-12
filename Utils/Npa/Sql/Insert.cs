@@ -3,11 +3,17 @@ using System.Collections.Generic;
 using System.Text;
 using Common.Utils.Npa.Interface;
 using Common.Utils.Npa.Cst;
-using Common.Utils.Npa.cmd;
+using Common.Utils.Npa.Cmd;
 using System.Data.Common;
 
 namespace Common.Utils.Npa.Sql
 {
+    /// <summary>
+    /// author: wenzq
+    /// date:   2018/10/6
+    /// desc:   插入语句获取接口实现
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class Insert<T> : BaseSql, ISave<T>
     {
         public Insert(String scheme, String table, Dictionary<String, IColumn> columnDic, List<IColumn> idColumns, String tag)

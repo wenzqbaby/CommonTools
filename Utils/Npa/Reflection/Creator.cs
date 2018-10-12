@@ -6,11 +6,16 @@ using System.Reflection;
 using Common.Utils.Cache;
 using System.Data;
 using Common.Utils.Reflection;
-using Common.Utils.Npa.cmd;
+using Common.Utils.Npa.Cmd;
 using Common.Utils.Npa.TypeHandler;
 
 namespace Common.Utils.Npa.Reflection
 {
+    /// <summary>
+    /// author: wenzq
+    /// date:   2018/10/7
+    /// desc:   数据集创建对象接口实现
+    /// </summary>
     public class Creator : ICreate
     {
         private DataTable validate(DataSet ds)
@@ -184,6 +189,23 @@ namespace Common.Utils.Npa.Reflection
                 return new List<T>();
             }
             return create<T, E>(dt, results, resultCollection);
+        }
+
+        public int getCount(DataSet ds)
+        {
+            DataTable dt = validate(ds);
+            if (dt == null)
+            {
+                throw new Exception("结果集不包含任何数据");
+            }
+            try
+            {
+                return Convert.ToInt32(dt.Rows[0][0]);
+            }
+            catch (Exception e)
+            {
+                throw new Exception("结果不是有效的INT类型数据 " + e.Message);
+            }
         }
 
         #endregion

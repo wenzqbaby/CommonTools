@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Common.Utils.Npa.Interface;
 
-namespace Common.Utils.Npa.cmd
+namespace Common.Utils.Npa.Cmd
 {
     /// <summary>
     /// 结果集配置指令
@@ -45,7 +45,7 @@ namespace Common.Utils.Npa.cmd
 
         private ITypeHandler _typeHandler;
         /// <summary>
-        /// 使用的类型转换器
+        /// 类型转换器
         /// </summary>
         public ITypeHandler TypeHandler
         {

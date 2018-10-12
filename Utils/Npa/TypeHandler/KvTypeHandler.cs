@@ -5,6 +5,11 @@ using Common.Utils.Npa.Interface;
 
 namespace Common.Utils.Npa.TypeHandler
 {
+    /// <summary>
+    /// author: wenzq
+    /// date:   2018/10/8
+    /// desc:   键值对类型转换接口实现
+    /// </summary>
     public class KvTypeHandler : AbstractTypeHandler
     {
         private Dictionary<String, String> mKvDic = new Dictionary<string, string>();

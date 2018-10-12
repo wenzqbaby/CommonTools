@@ -10,54 +10,25 @@ namespace Common.Utils.Npa.Sql
 {
     /// <summary>
     /// author: wenzq
-    /// date:   2018/10/6
-    /// desc:   查询语句获取接口实现
+    /// date:   2018/10/8
+    /// desc:   查询数量语句获取接口实现
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class Select<T> : BaseSql, ISelect<T>
+    public class Count<T> : BaseSql, ICount<T>
     {
-        private String mSelectSql;
-        //private List<IColumn> mIColumn;
+        private String CSQL;
 
-        public Select(String scheme, String table, Dictionary<String, IColumn> columnDic, String tag)
-            : base(scheme, table, columnDic, null)
+        public Count(String scheme, String table, Dictionary<String, IColumn> columnDic, List<IColumn> idColumns, String tag)
+            : base(scheme, table, columnDic, idColumns)
         {
             mType = typeof(T);
             TAG = tag;
-            //mIColumn = new List<IColumn>();
-            //mIColumn.AddRange(columnDic.Values);
-            mSelectSql = getSelectColumn(columnDic.Values);
+            CSQL = String.Format(SqlCst.COUNT_SQL, mFullTable);
         }
 
-        private String getSelectColumn(ICollection<IColumn> list)
-        {
-            if (list == null || list.Count < 0)
-            {
-                throw new Exception("{0} 查询失败，{1} 该类没有配置任何字段属性");
-            }
-            String column = String.Empty;
-            foreach (IColumn item in list)
-            {
-                column += SqlCst.SEPARATOR + item.getColumn();
-            }
-            return String.Format(SqlCst.SELECT_SQL, column.Substring(SqlCst.SEPARATOR.Length), mFullTable);
-        }
+        #region ICount<T> 成员
 
-        #region ISelect<T> 成员
-
-        public string find()
-        {
-            return mSelectSql;
-        }
-
-        public PreparedCmd findPrepared()
-        {
-            PreparedCmd cmd = new PreparedCmd();
-            cmd.Sql = mSelectSql;
-            return cmd;
-        }
-
-        public string find(T t)
+        public string count(T t)
         {
             String whereSql = String.Empty;
             foreach (IColumn item in mColumns.Values)
@@ -70,12 +41,12 @@ namespace Common.Utils.Npa.Sql
             }
             if (whereSql != String.Empty)
             {
-                return mSelectSql + String.Format(SqlCst.COND_SQL, whereSql.Substring(SqlCst.AND.Length));
+                return CSQL + String.Format(SqlCst.COND_SQL, whereSql.Substring(SqlCst.AND.Length));
             }
-            return mSelectSql;
+            return CSQL;
         }
 
-        public PreparedCmd findPrepared(T t)
+        public PreparedCmd countPrepared(T t)
         {
             String whereSql = String.Empty;
             PreparedCmd cmd = new PreparedCmd();
@@ -88,15 +59,18 @@ namespace Common.Utils.Npa.Sql
                     cmd.Parameters.Add(value);
                 }
             }
-            cmd.Sql = mSelectSql;
             if (whereSql != String.Empty)
             {
-                cmd.Sql += String.Format(SqlCst.COND_SQL, whereSql.Substring(SqlCst.AND.Length));
+                cmd.Sql = CSQL + String.Format(SqlCst.COND_SQL, whereSql.Substring(SqlCst.AND.Length));
+            }
+            else
+            {
+                cmd.Sql = CSQL;
             }
             return cmd;
         }
 
-        public string findById(T t)
+        public string countById(T t)
         {
             String whereSql = String.Empty;
             foreach (IColumn item in mIds)
@@ -104,7 +78,7 @@ namespace Common.Utils.Npa.Sql
                 String value = item.getSqlValue(t);
                 if (value == null)
                 {
-                    throw new Exception(String.Format("{0} 根据ID查询出错，主键属性 {1} 不能为空", TAG, item.getProp()));
+                    throw new Exception(String.Format("{0} 根据ID查询记录数出错，主键属性 {1} 不能为空", TAG, item.getProp()));
                 }
                 whereSql += SqlCst.AND + item.getColumn() + SqlCst.EQUAL + value;
             }
@@ -112,10 +86,10 @@ namespace Common.Utils.Npa.Sql
             {
                 throw new Exception(String.Format("{0} 根据ID查询记录数主键属性条件不能为空", TAG));
             }
-            return mSelectSql + String.Format(SqlCst.COND_SQL, whereSql.Substring(SqlCst.AND.Length));
+            return CSQL + String.Format(SqlCst.COND_SQL, whereSql.Substring(SqlCst.AND.Length));
         }
 
-        public PreparedCmd findPreparedById(T t)
+        public PreparedCmd countPreparedById(T t)
         {
             String whereSql = String.Empty;
             PreparedCmd cmd = new PreparedCmd();
@@ -124,7 +98,7 @@ namespace Common.Utils.Npa.Sql
                 DbParameter value = item.getDbParameter(t);
                 if (value == null)
                 {
-                    throw new Exception(String.Format("{0} 根据ID查询出错，主键属性 {1} 不能为空", TAG, item.getProp()));
+                    throw new Exception(String.Format("{0} 根据ID查询记录数出错，主键属性 {1} 不能为空", TAG, item.getProp()));
                 }
                 whereSql += SqlCst.AND + item.getColumn() + SqlCst.EQUAL + item.getPrepareProp();
                 cmd.Parameters.Add(value);
@@ -133,7 +107,7 @@ namespace Common.Utils.Npa.Sql
             {
                 throw new Exception(String.Format("{0} 根据ID查询记录数主键属性条件不能为空", TAG));
             }
-            cmd.Sql = mSelectSql + String.Format(SqlCst.COND_SQL, whereSql.Substring(SqlCst.AND.Length));
+            cmd.Sql = CSQL + String.Format(SqlCst.COND_SQL, whereSql.Substring(SqlCst.AND.Length));
             return cmd;
         }
 

@@ -5,6 +5,11 @@ using Common.Utils.Npa.Interface;
 
 namespace Common.Utils.Npa.TypeHandler
 {
+    /// <summary>
+    /// author: wenzq
+    /// date:   2018/10/7
+    /// desc:   类型转换接口工厂
+    /// </summary>
     public class TypeHandlerFactory
     {
         private static Dictionary<Type, ITypeHandler> factory = new Dictionary<Type, ITypeHandler>();

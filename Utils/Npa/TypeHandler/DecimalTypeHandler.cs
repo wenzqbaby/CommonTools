@@ -4,6 +4,11 @@ using System.Text;
 
 namespace Common.Utils.Npa.TypeHandler
 {
+    /// <summary>
+    /// author: wenzq
+    /// date:   2018/10/8
+    /// desc:   小数类型转换接口实现
+    /// </summary>
     public class DecimalTypeHandler : AbstractTypeHandler
     {
         protected DecimalTypeHandler() { }

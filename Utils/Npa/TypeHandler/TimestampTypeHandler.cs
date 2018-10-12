@@ -5,6 +5,11 @@ using Common.Utils.Npa.Interface;
 
 namespace Common.Utils.Npa.TypeHandler
 {
+    /// <summary>
+    /// author: wenzq
+    /// date:   2018/10/5
+    /// desc:   时间类型转换接口实现
+    /// </summary>
     public class TimestampTypeHandler : AbstractTypeHandler
     {
         protected TimestampTypeHandler() { }

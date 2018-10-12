@@ -5,6 +5,11 @@ using Common.Utils.Npa.Interface;
 
 namespace Common.Utils.Npa.TypeHandler
 {
+    /// <summary>
+    /// author: wenzq
+    /// date:   2018/10/6
+    /// desc:   类型转换接口抽象实现
+    /// </summary>
     public abstract class AbstractTypeHandler : ITypeHandler
     {
         #region ITypeHandler 成员

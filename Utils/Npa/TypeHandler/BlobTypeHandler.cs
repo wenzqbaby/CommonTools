@@ -5,6 +5,11 @@ using Common.Utils.Npa.Interface;
 
 namespace Common.Utils.Npa.TypeHandler
 {
+    /// <summary>
+    /// author: wenzq
+    /// date:   2018/10/6
+    /// desc:   子节数组类型转换接口实现
+    /// </summary>
     public class BlobTypeHandler : AbstractTypeHandler
     {
         protected BlobTypeHandler() { }
